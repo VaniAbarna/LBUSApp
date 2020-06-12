@@ -1,0 +1,155 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"description": "Location Based User Service application is used to find people who are\nlisted as either living in the requested city, or whose current coordinates\nare within 50 miles of that particular city",
+		"version": "1.0.0",
+		"title": "Location Based User Service Application"
+	},
+	"tags": [
+		{
+			"name": "city",
+			"description": "Operations based on city"
+		},
+		{
+			"name": "user",
+			"description": "Operations about user"
+		}
+	],
+	"paths": {
+		"/city/{city}/users": {
+			"get": {
+				"tags": [
+					"city"
+				],
+				"summary": "Finds users by city",
+				"description": "Find users based on the city name passed in the request",
+				"operationId": "findUsersByCity",
+				"parameters": [
+					{
+						"name": "city",
+						"in": "path",
+						"description": "name of the city",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/User"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/user/{id}": {
+			"get": {
+				"tags": [
+					"user"
+				],
+				"summary": "Find user by ID",
+				"description": "Returns a single user",
+				"operationId": "getUserById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID of user to return",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"tags": [
+					"user"
+				],
+				"summary": "Find all users",
+				"description": "Returns list of users",
+				"operationId": "getUsers",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost/"
+		}
+	],
+	"components": {
+		"schemas": {
+			"User": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"first_name": {
+						"type": "string"
+					},
+					"last_name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"ip_address": {
+						"type": "string"
+					},
+					"latitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"longitude": {
+						"type": "number",
+						"format": "double"
+					},
+					"city": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

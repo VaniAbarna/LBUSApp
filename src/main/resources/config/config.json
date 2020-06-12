@@ -1,0 +1,5 @@
+{
+	"host": "localhost",
+	"port": 8080,
+	"service_host": "https://bpdts-test-app.herokuapp.com"
+}

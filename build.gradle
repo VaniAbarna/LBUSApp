@@ -1,0 +1,63 @@
+plugins {
+    id 'java-library'
+    id 'java'
+    id 'application'
+}
+
+repositories {
+  mavenCentral()
+  maven {
+    url "https://repo.maven.apache.org/maven2"
+  }
+}
+
+version = '3.9.1'
+sourceCompatibility = '1.8'
+mainClassName = 'io.vertx.core.Launcher'
+
+dependencies {
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+    
+    compile "io.vertx:vertx-core:$version"
+    
+    compile "io.vertx:vertx-web:$version"
+    
+    compile "io.vertx:vertx-web-api-service:$version"
+    
+    compile "io.vertx:vertx-web-client:$version"
+    
+    compile "io.vertx:vertx-config:$version"
+    
+    compile "ch.qos.logback:logback-classic:1.1.7"
+    
+    compile "org.junit.jupiter:junit-jupiter-engine:5.6.0"
+    
+    compile "org.assertj:assertj-core:3.14.0"
+    
+    compile "io.vertx:vertx-junit5:$version"
+    
+    compile "org.junit.platform:junit-platform-launcher:1.6.0"
+    
+}
+
+jar {
+	baseName = project.name
+	version =  '1.0.0'
+    manifest {
+        attributes "Main-Class": "com.dwp.lbus.LBUSAppVerticle"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/allTests")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
+}
